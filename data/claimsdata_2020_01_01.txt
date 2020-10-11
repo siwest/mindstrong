@@ -1,0 +1,4 @@
+claim_id, paid_amount, date_of_service, days_supply
+clm123, 12.90, 2020-01-0134
+clm456, 221.23, 2020-03-0124
+clm786, 34.30, 2020-06-0114
