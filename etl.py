@@ -1,6 +1,7 @@
 from code import tasks
 from validations.validator import Validator
 import argparse
+import datetime
 
 parser = argparse.ArgumentParser(description="ETL Job")
 parser.add_argument("--spec", type=str, help="Input specification file name")
@@ -11,7 +12,7 @@ args = parser.parse_args()
 spec = args.spec
 datafile = args.datafile
 target = args.target
-table_name = "claims" # the table we're writing to
+table_name = "claims"  # the table we're writing to
 
 
 db_connection = tasks.connect_sqllite_database(target)
@@ -31,7 +32,7 @@ clean_claims = []
 
 header_list = []
 for row_index, row in enumerate(claims_data):
-    
+
     # Clean and check data headers
     if row_index == 0:
         for header in row:
@@ -47,7 +48,7 @@ for row_index, row in enumerate(claims_data):
 
     else:
         # Clean and check rest of data rows
-        data_row = {}
+        data_row = {"created_at": datetime.datetime.now(), "source_file_name": datafile}
         for column_index, data_value in enumerate(row):
 
             data_header = header_list[column_index]
@@ -67,10 +68,7 @@ for row_index, row in enumerate(claims_data):
             data_row[data_header] = data_value
 
         # Special handling only if we find data concatenated
-        if (
-            column_index < len(header_list)
-            and not is_valid_record_length
-        ):
+        if column_index < len(header_list) and not is_valid_record_length:
 
             other_data_header = header_list[column_index + 1]
 
