@@ -24,7 +24,9 @@ class TestValidator(unittest.TestCase):
         schema_validator.check_record_length(MagicMock(), MagicMock())
 
         mocked_validator.assert_called_once()
-        print("Asserted the class instance is created once despite many function calls.")
+        print(
+            "Asserted the class instance is created once despite many function calls."
+        )
 
     def tearDown(self):
         print("Done with test on Validator.")

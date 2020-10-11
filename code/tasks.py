@@ -24,9 +24,9 @@ def get_table_specification(file_name):
         file_name (str): A file name
 
     Returns:
-        get_table_specification (list): List in dictionary rules or 
+        get_table_specification (list): List in dictionary rules or
           specifications for how to read the CSV files
-    """    
+    """
     clean_schema = []
     with open(file_name, "r") as spec_file:
         schema_specification = list(csv.DictReader(spec_file))
@@ -48,8 +48,7 @@ def connect_sqllite_database(db_name):
 
 
 def disconnect_sqllite_database(db_connection):
-    """Closes a connection object.
-    """
+    """Closes a connection object."""
     logging.warning("Closing connection to sqlite3 database")
     return db_connection.close()
 
@@ -64,8 +63,7 @@ def _drop_table(db_cursor, db_connection, table_name):
 
 
 def create_table(db_cursor, db_connection, table_name, clean_schema):
-    """Creates a table from a provided schema.
-    """
+    """Creates a table from a provided schema."""
     schema_string = ""
     for item in clean_schema:
         field_name = item["field_name"]
@@ -89,7 +87,6 @@ def create_table(db_cursor, db_connection, table_name, clean_schema):
 
 
 def append_to_table(db_connection, table_name, data):
-    """Appends to data a table.
-    """
+    """Appends to data a table."""
     df = pd.DataFrame(data)
     df.to_sql(name=table_name, con=db_connection, if_exists="append", index=None)
