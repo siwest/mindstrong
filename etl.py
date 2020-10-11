@@ -1,6 +1,5 @@
 from code import tasks
 from validations.validator import Validator
-import pandas as pd
 import argparse
 
 parser = argparse.ArgumentParser(description="ETL Job")
@@ -12,7 +11,7 @@ args = parser.parse_args()
 spec = args.spec
 datafile = args.datafile
 target = args.target
-table_name = "claims"
+table_name = "claims" # the table we're writing to
 
 
 db_connection = tasks.connect_sqllite_database(target)
@@ -23,6 +22,7 @@ claims_data = tasks.get_claims(datafile)
 schema = tasks.get_table_specification(spec)
 schema_validator = Validator(schema)
 
+# TODO: alter the table and swapping the data in case of schema change
 tasks._drop_table(db_cursor, db_connection, table_name)
 tasks.create_table(db_cursor, db_connection, table_name, schema)
 
@@ -31,6 +31,7 @@ clean_claims = []
 
 header_list = []
 for row_index, row in enumerate(claims_data):
+    
     # Clean and check data headers
     if row_index == 0:
         for header in row:
