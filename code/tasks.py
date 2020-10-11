@@ -89,7 +89,7 @@ def create_table(db_cursor, db_connection, table_name, clean_schema):
 
 
 def append_to_table(db_connection, table_name, data):
-    """Appenda to data a table.
+    """Appends to data a table.
     """
     df = pd.DataFrame(data)
     df.to_sql(name=table_name, con=db_connection, if_exists="append", index=None)
